@@ -1,5 +1,5 @@
 class Mails
-  def self.call(_env)
-    [200, {}, ['Hello World']]
+  def self.call(env)
+    [200, {}, ['Hello world']]
   end
 end
