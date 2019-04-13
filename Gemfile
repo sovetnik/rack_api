@@ -1,4 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rack'
+# DRY-stack
+gem 'dry-monads'
+gem 'dry-validation'
+
+# test
 gem 'minitest'
+
+# http
+gem 'rack'
