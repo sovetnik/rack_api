@@ -1,5 +1,6 @@
-class Mails
-  def self.call(env)
-    [200, {}, ['Hello world']]
-  end
+module Mails
 end
+
+require_relative './mails/user'
+require_relative './mails/router'
+require_relative './mails/app'
