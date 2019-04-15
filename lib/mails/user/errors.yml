@@ -1,0 +1,8 @@
+en:
+  errors:
+    email?:
+      value:
+        email: 'must be a valid email address'
+    unique?:
+      value:
+        email: 'must be unique'

@@ -1,5 +1,3 @@
-
 module Mails::User
-  class List
-  end
+  Repo = ::DB[:users]
 end
