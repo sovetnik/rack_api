@@ -25,8 +25,10 @@ describe Mails::Router, 'a Rack api app' do
 
   describe 'GET /user/:id' do
     let(:headers) do
-      { 'REQUEST_METHOD' => 'GET', 'PATH_INFO' => '/user/xxx-yyy' }
+      { 'REQUEST_METHOD' => 'GET',
+        'PATH_INFO' => '/user/7e7eeffe-b348-48dd-a402-f788d93bf8a5' }
     end
+
     it 'success with User::Show instance' do
       expect(subject.value!).must_be_instance_of Mails::User::Show
     end
@@ -35,7 +37,7 @@ describe Mails::Router, 'a Rack api app' do
   describe 'GET root' do
     let(:headers) { { 'REQUEST_METHOD' => 'GET', 'PATH_INFO' => '/' } }
     it 'failure with  no match found' do
-      expect(subject.failure).must_equal :not_found
+      expect(subject.failure).must_equal 'not_found'
     end
   end
 end
