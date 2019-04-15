@@ -1,28 +1,62 @@
-require 'minitest/autorun'
-require_relative '../../mails/app'
+require_relative '../spec_helper'
 
 describe Mails::App, 'a Rack api app' do
-  subject { Mails::App.call(env) }
+  # subject { Mails::App.call(env) }
 
-  let(:status) { subject[0] }
-  let(:body) { subject[2][0] }
+  let(:app) { Mails::App.new }
 
-  describe 'get to /hello' do
-    let(:env) { { 'REQUEST_METHOD' => 'GET', 'PATH_INFO' => '/hello' } }
+  let(:email_one) { 'one@mail.com' }
+  let(:email_two) { 'two@mail.com' }
+  let(:uuid_one) { Mails::User::Repo.insert email: email_one }
+  let(:uuid_two) { Mails::User::Repo.insert email: email_two }
 
-    it 'returns the status 200' do
-      expect(status).must_equal 200
+  describe 'POST /users create' do
+    before { post '/users', "email": 'john@example.com' }
+    it { expect(last_response).must_be_ok }
+
+    describe 'email taken' do
+      before { post '/users', "email": 'john@example.com' }
+      it { expect(last_response).must_be_unprocessable_entity }
+      it do
+        expect(last_response.body)
+          .must_equal '{"error":{"email":["must be unique"]}}'
+      end
     end
 
-    it 'returns the body' do
-      expect(body).must_equal 'Hello world'
+    describe 'missing email' do
+      before { post '/users' }
+      it { expect(last_response).must_be_unprocessable_entity }
+      it do
+        expect(last_response.body)
+          .must_equal '{"error":{"email":["is missing"]}}'
+      end
+    end
+
+    describe 'wrong_email' do
+      before { post '/users', "email": 'wrong_email' }
+      it { expect(last_response).must_be_unprocessable_entity }
+      it do
+        expect(last_response.body)
+          .must_equal '{"error":{"email":["must be a valid email address"]}}'
+      end
     end
   end
 
-  describe '/users' do
-    let(:env) { { 'REQUEST_METHOD' => 'GET', 'PATH_INFO' => '/users' } }
-    it 'route request' do
-      expect(body).must_equal :users
+  describe 'GET /users list' do
+    before do
+      uuid_one
+      uuid_two
+      get '/users', {}, {}
     end
+
+    it { expect(last_response).must_be_ok }
+  end
+
+  describe 'GET /user/:id show' do
+    before do
+      uuid_one
+      get "/user/#{uuid_one}"
+    end
+    it { expect(last_response).must_be_ok }
   end
 end
