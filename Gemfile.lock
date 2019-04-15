@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/brandonweiss/rack-minitest.git
+  revision: ff8669c284e05c3cba8d14b867165c103283a167
+  specs:
+    rack-minitest (0.0.10)
+      json
+      minitest (~> 5.0)
+      rack-test
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -34,8 +43,14 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.5, >= 0.5.0)
       dry-types (~> 0.14.0)
+    json (2.2.0)
     minitest (5.11.3)
+    pg (1.1.4)
     rack (2.0.6)
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
+    rake (12.3.2)
+    sequel (5.19.0)
 
 PLATFORMS
   ruby
@@ -44,7 +59,12 @@ DEPENDENCIES
   dry-monads
   dry-validation
   minitest
+  pg
   rack
+  rack-minitest!
+  rack-test
+  rake
+  sequel
 
 BUNDLED WITH
    1.17.3
