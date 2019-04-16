@@ -64,5 +64,5 @@ rackup
 
 ## Run test
 ```
-rackup
+rake
 ```
